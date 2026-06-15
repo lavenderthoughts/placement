@@ -1,0 +1,53 @@
+import java.util.Scanner;
+public class Main
+{
+  public static long gcdcalculate(long n, long a, long b, long c, long d)
+  {
+
+    long sum = 0 ;
+    long mod  = 998244353;
+    for(long i = 1 ;  i <= n; i++)
+    {
+      long p = (a*i)+b;
+      long q = (c*i)+d;
+      sum = (sum+ gcd(p,q)) % mod ;
+    }
+    return sum;
+      
+      
+  }
+  public static long gcd(long a, long b) 
+  {
+    while (b != 0) 
+    {
+        long temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+  }
+
+
+
+  public static void main(String[] args)
+  {
+    Scanner sc = new Scanner(System.in);
+        
+        if (sc.hasNextInt()) {
+           
+            int t = sc.nextInt(); 
+            
+            for (int caseNum = 0; caseNum < t; caseNum++) {
+                long n = sc.nextLong();
+                long a = sc.nextLong();
+                long b = sc.nextLong();
+                long c = sc.nextLong();
+                long d = sc.nextLong();
+                
+                long result = gcdcalculate(n, a, b, c, d);
+                System.out.println(result);
+            }
+        }
+        sc.close();
+  }
+}
