@@ -1,0 +1,23 @@
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        /*String sent =  paragraph.replaceAll("[^a-zA-Z]"," ");
+        sent =  sent.toLowerCase();
+        String[]  words = sent.split(" ");
+        HashMap<String, String> common = new HashMap<>();
+        HashSet<String> ban = new HashSet<>();
+        for (String b : banned) {
+            ban.add(b);
+        }
+        for()*/
+        String[] words = paragraph.toLowerCase().split("[ !?',;.]+");
+        HashMap<String, Integer> map = new HashMap<>();
+        for(String word : words) map.put(word, map.getOrDefault(word, 0) + 1);
+        for(String word : banned) if(map.containsKey(word)) map.remove(word);
+        String res = null;
+        for(String word : map.keySet())
+            if(res == null || map.get(word) > map.get(res))
+                res = word;
+        return res;
+        
+    }
+}
