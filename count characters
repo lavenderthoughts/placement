@@ -1,0 +1,41 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static String countcharacters(String input)
+    {
+        StringBuilder sb  = new StringBuilder();
+        char[]  ch = input.toCharArray();
+        ArrayList<Character> arr = new ArrayList<>();
+        
+       
+        for(char c = 0 ; c < ch.length  ; c++)
+        {
+            int count = 0;
+            if(!arr.contains(ch[c]))
+            {
+            
+            arr.add(ch[c]);
+            sb.append(ch[c]);
+               
+            for(char  j = c ; j < ch.length ; j++ )
+            {
+                if(ch[c] == ch[j] )
+                {
+                    count++;
+                }
+            }
+            
+            sb.append(count);
+            }
+            
+        }
+        String result  =  sb.toString();
+        return result;
+    }
+    public static void main(String[] args) {
+        Scanner sc  =  new Scanner(System.in);
+        System.out.println("Enter the string: ");
+        String input = sc.next();
+        String result = countcharacters(input);
+        System.out.println(result);
+    }
+}
