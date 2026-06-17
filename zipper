@@ -1,0 +1,43 @@
+import java.io.*;
+import java.util.zip.*;
+
+public class FileZipper {
+
+    public static void compress(File inputFile, File outputFile) throws IOException {
+        try (FileInputStream fis = new FileInputStream(inputFile);
+             FileOutputStream fos = new FileOutputStream(outputFile);
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
+            
+            zos.setMethod(ZipOutputStream.DEFLATED);
+            
+            ZipEntry zipEntry = new ZipEntry(inputFile.getName());
+            zos.putNextEntry(zipEntry);
+            
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fis.read(buffer)) >= 0) {
+                zos.write(buffer, 0, length);
+            }
+            zos.closeEntry();
+        }
+        
+        inputFile.delete();
+    }
+
+    public static void decompress(File inputFile, File outputFile) throws IOException {
+        try (FileInputStream fis = new FileInputStream(inputFile);
+             ZipInputStream zis = new ZipInputStream(fis);
+             FileOutputStream fos = new FileOutputStream(outputFile)) {
+            
+            ZipEntry zipEntry = zis.getNextEntry();
+            if (zipEntry != null) {
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = zis.read(buffer)) >= 0) {
+                    fos.write(buffer, 0, length);
+                }
+                zis.closeEntry();
+            }
+        }
+    }
+}
