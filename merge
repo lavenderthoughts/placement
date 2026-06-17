@@ -1,0 +1,30 @@
+import java.util.Arrays;
+
+public class InPlaceMerge {
+    public static void mergeHalvesInPlace(int[] arr) {
+        int n = arr.length;
+        int mid = n / 2;
+        int i = 0;
+        int j = mid;
+
+        while (i < j && j < n) {
+            if (arr[i] <= arr[j]) {
+                i++;
+            } else {
+                int value = arr[j];
+                int index = j;
+
+                // Shift all intermediate elements to the right by one position
+                while (index > i) {
+                    arr[index] = arr[index - 1];
+                    index--;
+                }
+                arr[i] = value;
+
+                // Update pointers to point to next uncompared indices
+                i++;
+                j++;
+            }
+        }
+    }
+}
