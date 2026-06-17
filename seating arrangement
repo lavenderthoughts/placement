@@ -1,0 +1,72 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        
+        if (br.ready() || true) {
+            String line = br.readLine();
+            if (line == null) return;
+            st = new StringTokenizer(line);
+        }
+        
+        int t = Integer.parseInt(st.nextToken());
+        StringBuilder sb = new StringBuilder();
+        
+        while (t-- > 0) {
+            st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int x = Integer.parseInt(st.nextToken());
+            int s = Integer.parseInt(st.nextToken());
+            
+            String u = br.readLine();
+            
+            int[] dp = new int[x + 1];
+            Arrays.fill(dp, -1);
+            dp[x] = 0;
+            
+            for (int i = 0; i < n; i++) {
+                char person = u.charAt(i);
+                int[] nextDp = new int[x + 1];
+                Arrays.fill(nextDp, -1);
+                
+                for (int e = 0; e <= x; e++) {
+                    if (dp[e] == -1) continue;
+                    
+                    int ans = dp[e];
+                    long fs = (long) (x - e) * s - ans;
+                    
+                    if (person == 'I') {
+                        nextDp[e] = Math.max(nextDp[e], ans);
+                        if (e > 0) {
+                            nextDp[e - 1] = Math.max(nextDp[e - 1], ans + 1);
+                        }
+                    } else if (person == 'E') {
+                        int added = (fs > 0) ? 1 : 0;
+                        nextDp[e] = Math.max(nextDp[e], ans + added);
+                    } else if (person == 'A') {
+                        int added = (fs > 0) ? 1 : 0;
+                        nextDp[e] = Math.max(nextDp[e], ans + added);
+                        if (e > 0) {
+                            nextDp[e - 1] = Math.max(nextDp[e - 1], ans + 1);
+                        }
+                    }
+                }
+                dp = nextDp;
+            }
+            
+            int maxSeated = 0;
+            for (int e = 0; e <= x; e++) {
+                maxSeated = Math.max(maxSeated, dp[e]);
+            }
+            sb.append(maxSeated).append("\n");
+        }
+        
+        System.out.print(sb);
+    }
+}
